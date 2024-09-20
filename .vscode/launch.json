@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug on Windows",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/Debug/emium-geometry-engine.exe",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            // "preLaunchTask": "build",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "args": ["tests/01/input_01.json"],
+        },
+        {
+            "name": "Debug on WSL",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/emium-geometry-engine",
+            "args": ["tests/01/input_01.json"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "pipeTransport": {
+                "pipeCwd": "",  // WSL上の存在するディレクトリを指定
+                "pipeProgram": "${env:WINDIR}\\System32\\wsl.exe",
+                "pipeArgs": ["-d", "Ubuntu", "--"],
+                "debuggerPath": "/usr/bin/gdb"
+            },
+            "sourceFileMap": {
+                "/mnt/c": "C:\\"
+            },
+            "logging": {
+                "engineLogging": true
+            }
+        }
+    ]
+}

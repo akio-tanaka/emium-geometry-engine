@@ -1,0 +1,22 @@
+{
+    "model": {
+        "id": "model",
+        "name": "model",
+        "type": ".ply",
+        "subType": "binary",
+        "data": "modeldata"
+    },
+    "operation": {
+        "type": "marginline",
+        "marginline": {
+            "type": "coordinate",
+            "seed": [
+                -7.01132,
+                -2.00096,
+                0.706558
+            ],
+            "num_samples": 10,
+            "threshold_to_remove_last_point": 0.2
+        }
+    }
+}

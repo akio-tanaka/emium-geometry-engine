@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(YourProjectName)
+project(emium-geometry-engine)
 
 # C++の標準を設定
 set(CMAKE_CXX_STANDARD 17)
@@ -13,11 +13,18 @@ option(LIBIGL_WITH_OPENGL_GLFW_IMGUI "Use ImGui" ON)
 # サブディレクトリの追加
 add_subdirectory(external/libigl)
 
+# gladのインクルード
+include(external/libigl/cmake/recipes/external/glad.cmake)
+
+# glfwのインクルード
+include(external/libigl/cmake/recipes/external/glfw.cmake)
+
 # インクルードディレクトリの設定
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${LIBIGL_INCLUDE_DIRS}
 )
+include_directories(${CMAKE_SOURCE_DIR}/external/json/include)
 
 # ソースファイルの収集
 file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
@@ -26,4 +33,4 @@ file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
 # ライブラリのリンク
-target_link_libraries(${PROJECT_NAME} igl::core)
+target_link_libraries(${PROJECT_NAME} igl::core glad::glad glfw::glfw)
