@@ -21,8 +21,7 @@ struct GeometryEngineInput
         struct Marginline {
             std::string type;  // type of seed point, 'id' for vertex id, or 'coordinate' for coordinate. it must be "coordinate" now.
             std::vector<double> seed;  // seed point to generate margin line
-            int num_samples; // number of samples
-            double threshold_to_remove_last_point; // threshold to remove last point
+            double distance_threshold_for_downsampling;  // distance threshold for downsampling
         };
 
         std::string type;      // Operation data type, like 'marginline'

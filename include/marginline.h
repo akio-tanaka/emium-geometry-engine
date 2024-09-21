@@ -29,12 +29,10 @@ void CreateMarginline(
 * @brief downsample marginline based on the algorithm in Ramer-Douglas-Peucker
 * @param V [i] vertice
 * @param marginline [i/o] marginline must have a seed point as input
-* @param num_samples [i] number of samples
-* @param threshold_to_remove_last_point [i] threshold to remove the last point
+* @param distance_threshold_for_downsampling [i] distance threshold for downsampling
 * @return downsampled marginline 
 */
 std::vector<int> DownSampleMarginline(
 	const VectorArray& V,
 	const std::vector<int>& marginline,
-	size_t num_samples,
-	double threshold_to_remove_last_point);
+	double distance_threshold_for_downsampling);

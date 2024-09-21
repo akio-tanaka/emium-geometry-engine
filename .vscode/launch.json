@@ -11,14 +11,7 @@
             "environment": [],
             "externalConsole": false,
             // "preLaunchTask": "build",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "args": ["tests/01/input_01.json"],
+            "args": ["tests/01/input.json"],
         },
         {
             "name": "Debug on WSL",

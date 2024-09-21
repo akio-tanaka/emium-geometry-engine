@@ -211,8 +211,7 @@ void CreateMarginline(
 std::vector<int> DownSampleMarginline(
 	const VectorArray& V,
 	const std::vector<int>& marginline,
-	size_t num_samples,
-	double threshold_to_remove_last_point)
+	double distance_threshold_for_downsampling)
 {
 	if (marginline.size() < 2)
 	{

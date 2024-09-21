@@ -14,7 +14,7 @@ void to_json(nlohmann::json& j, const GeometryEngineInput::Model& m)
 
 void to_json(nlohmann::json& j, const GeometryEngineInput::Operation::Marginline& ml)
 {
-    j = nlohmann::json{ {"type", ml.type}, {"seed", ml.seed}, {"num_samples", ml.num_samples}, {"threshold_to_remove_last_point", ml.threshold_to_remove_last_point} };
+    j = nlohmann::json{ {"type", ml.type}, {"seed", ml.seed}, {"distance_threshold_for_downsampling", ml.distance_threshold_for_downsampling} };
 }
 
 
@@ -44,8 +44,7 @@ void from_json(const nlohmann::json& j, GeometryEngineInput::Operation::Marginli
 {
     ml.type = j.at("type").get<std::string>();
     ml.seed = j.at("seed").get<std::vector<double>>();
-    ml.num_samples = j.at("num_samples").get<int>();
-    ml.threshold_to_remove_last_point = j.at("threshold_to_remove_last_point").get<double>();
+    ml.distance_threshold_for_downsampling = j.at("distance_threshold_for_downsampling").get<double>();
 }
 
 

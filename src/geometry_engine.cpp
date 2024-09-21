@@ -162,9 +162,8 @@ GeometryEngineOutput GeometryEngine::Run()
 		std::set<int> visited;
 		CreateMarginline(V_, F_, adjacency_list_, curvature_info_, marginline, visited);
 
-		auto num_samples = input_.operation.marginline.num_samples;
-		auto threshold_to_remove_last_point = input_.operation.marginline.threshold_to_remove_last_point;
-		auto downsampled = DownSampleMarginline(V_, marginline, num_samples, threshold_to_remove_last_point);
+		auto distance_threshold_for_downsampling = input_.operation.marginline.distance_threshold_for_downsampling;
+		auto downsampled = DownSampleMarginline(V_, marginline, distance_threshold_for_downsampling);
 		
 		output_.result.type = "marginline";
 		output_.result.marginline.num_original_points = marginline.size();
