@@ -147,6 +147,42 @@ bool SaveVtk(
 }
 
 
+bool SaveVtk(
+	const std::filesystem::path& filepath,
+	std::vector<std::vector<double>> points)
+{
+	std::ofstream out(filepath.c_str());
+	if (!out)
+	{
+		return false;
+	}
+
+	out << "# vtk DataFile Version 2.0\n";
+	out << "Polyline Example\n";
+	out << "ASCII\n";
+	out << "DATASET UNSTRUCTURED_GRID\n";
+	out << "POINTS " << points.size() << " float\n";
+	for (auto& point : points)
+	{
+		out << point[0] << " " << point[1] << " " << point[2] << "\n";
+	}
+
+	out << "CELLS 1 " << points.size() + 1 << "\n";
+	out << points.size();
+	for (size_t i = 0; i < points.size(); ++i)
+	{
+		out << " " << i;
+	}
+	out << "\n";
+
+	out << "CELL_TYPES 1\n";
+	out << "4\n";
+
+	out.close();
+	return true;
+}
+
+
 bool SaveCsv(
 	const std::filesystem::path& filepath,
 	const VectorArray& V,

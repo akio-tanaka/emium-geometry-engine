@@ -79,6 +79,26 @@
         "filesystem": "cpp",
         "regex": "cpp",
         "bitset": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "any": "cpp",
+        "cfenv": "cpp",
+        "cinttypes": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "condition_variable": "cpp",
+        "coroutine": "cpp",
+        "csignal": "cpp",
+        "cwctype": "cpp",
+        "future": "cpp",
+        "memory_resource": "cpp",
+        "mutex": "cpp",
+        "shared_mutex": "cpp",
+        "source_location": "cpp",
+        "stdfloat": "cpp",
+        "strstream": "cpp",
+        "typeindex": "cpp",
+        "unordered_set": "cpp",
+        "variant": "cpp",
+        "mprealsupport": "cpp"
     }
 }

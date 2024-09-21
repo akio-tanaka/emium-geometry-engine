@@ -43,6 +43,17 @@ bool SaveVtk(
 /**
  * @brief Save a polyline to a file
  * @param filepath file path
+ * @param points points
+ * @return true if the polyline is saved successfully, false otherwise
+ */
+bool SaveVtk(
+	const std::filesystem::path& filepath,
+	std::vector<std::vector<double>> points);
+
+
+/**
+ * @brief Save a polyline to a file
+ * @param filepath file path
  * @param V vertices
  * @param selected selected vertices
  * @return true if the polyline is saved successfully, false otherwise

@@ -39,6 +39,7 @@ cmake --build build --config Release
 #### Linux
 
 ```sh
+mkdir build
 cmake -S . -B build
 cmake --build build --config Release
 ```

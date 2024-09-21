@@ -1,6 +1,69 @@
 #include "marginline.h"
 #include <cassert>
+#include <cmath>
 #include "curvature_info.h"
+
+
+namespace
+{
+	double PerpendicularDistance(
+		const Eigen::Vector3d& point,
+		const Eigen::Vector3d& line_start,
+		const Eigen::Vector3d& line_end
+	) {
+		Eigen::Vector3d line_vec = line_end - line_start;
+		Eigen::Vector3d point_vec = point - line_start;
+		auto line_length = line_vec.norm();
+		
+		if (line_length < 1e-4)	// TODO: tolerance should be defined as a constant
+		{
+			return point_vec.norm();
+		}
+
+		auto t = point_vec.dot(line_vec) / (line_length * line_length);
+		Eigen::Vector3d projection = line_start + t * line_vec;
+		return (projection - point).norm();
+	}
+
+
+	void RDP(
+		const VectorArray& V,
+		const std::vector<int>& polyline_vertices,
+		double epsilon,
+		int start,
+		int end,
+		std::vector<int>& result
+	) {
+		if (start >= end)
+		{
+			return;
+		}
+
+		// find the point with the maximum distance from the line connecting the start and end points
+		auto max_distance = 0.0;
+		auto index = start;
+		for (auto i = start + 1; i < end; ++i)
+		{
+			auto distance = PerpendicularDistance(
+				V.row(polyline_vertices[i]),
+				V.row(polyline_vertices[start]),
+				V.row(polyline_vertices[end]));
+			if (distance > max_distance)
+			{
+				max_distance = distance;
+				index = i;
+			}
+		}
+
+		// keep the point if the maximum distance exceeds the threshold
+		if (max_distance > epsilon)
+		{
+			RDP(V, polyline_vertices, epsilon, start, index, result);
+			result.push_back(polyline_vertices[index]);
+			RDP(V, polyline_vertices, epsilon, index, end, result);
+		}
+	}
+}
 
 
 void CreateMarginline(
@@ -147,35 +210,20 @@ void CreateMarginline(
 
 std::vector<int> DownSampleMarginline(
 	const VectorArray& V,
-	const IndicesArray& F,
-	const std::vector<std::vector<int>>& adjacency_list,
-	const CurvatureInfo& curvature_info,
 	const std::vector<int>& marginline,
-	const std::set<int>& visited,
 	size_t num_samples,
 	double threshold_to_remove_last_point)
 {
-	auto linspace = [](int start, int end, int num, bool endpoint) -> std::vector<int>
-	{
-			std::vector<int> indices;
-			auto step = static_cast<double>(end - start) / (endpoint ? num - 1 : num);
-			for (auto i = 0; i < num; ++i)
-			{
-				indices.push_back(static_cast<int>(std::round(start + i * step)));
-			}
-			return indices;
-	};
-
-
-	auto interval = floor(static_cast<double>(marginline.size()) / num_samples);
-	if (interval < 1)
+	if (marginline.size() < 2)
 	{
 		return marginline;
 	}
 
-	auto modulus = marginline.size() % num_samples;
-	auto should_remove_last_point = modulus > threshold_to_remove_last_point;
-	auto indices = linspace(0, static_cast<int>(marginline.size()) - 1, static_cast<int>(num_samples), should_remove_last_point);
-	return indices;
+    std::vector<int> result;
+	static const double epsilon = 0.5;	// TODO: epsilon should be defined as a constant
+    result.push_back(marginline.front());
+    RDP(V, marginline, epsilon, 0, static_cast<int>(marginline.size() - 1), result);
+    result.push_back(marginline.back());
 
+    return result;
 }

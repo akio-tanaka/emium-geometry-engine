@@ -164,12 +164,20 @@ GeometryEngineOutput GeometryEngine::Run()
 
 		auto num_samples = input_.operation.marginline.num_samples;
 		auto threshold_to_remove_last_point = input_.operation.marginline.threshold_to_remove_last_point;
-		auto downsampled = DownSampleMarginline(V_, F_, adjacency_list_, curvature_info_, marginline, visited, num_samples, threshold_to_remove_last_point);
+		auto downsampled = DownSampleMarginline(V_, marginline, num_samples, threshold_to_remove_last_point);
 		
 		output_.result.type = "marginline";
 		output_.result.marginline.num_original_points = marginline.size();
 		output_.result.marginline.num_samples = downsampled.size();
 		output_.result.marginline.points = Convert(V_, downsampled);
+
+#ifdef _DEBUG
+		auto vtk_filepath_for_marginline = input_json_.parent_path() / "marginline.vtk";
+		if (!SaveVtk(vtk_filepath_for_marginline, output_.result.marginline.points))
+		{
+			std::cout << "failed to save marginline as vtk file\n";
+		}
+#endif
 	}
 	catch (const std::exception& e)
 	{
