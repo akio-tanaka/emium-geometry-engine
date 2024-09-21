@@ -32,4 +32,5 @@
 *.app
 
 # Debug files
+external/
 build/
